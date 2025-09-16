@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Job;
+use App\Interfaces\JobRepositoryInterface;
 
-class JobRepository
+class JobRepository implements JobRepositoryInterface
 {
     protected $model;
 

@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
-use App\Models\User;
+use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\UserServiceInterface;
 
-class UserService
+class UserService implements UserServiceInterface
 {
     protected $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -38,6 +38,6 @@ class UserService
     public function delete(int $id)
     {
         $user = $this->repository->find($id);
-        $this->repository->delete($user);
+        return $this->repository->delete($user);
     }
 }

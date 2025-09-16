@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Company;
+use App\Interfaces\CompanyRepositoryInterface;
 
-class CompanyRepository
+class CompanyRepository implements CompanyRepositoryInterface
 {
     protected $model;
 

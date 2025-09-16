@@ -13,6 +13,15 @@ use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Models\User;
 
+use App\Interfaces\CompanyRepositoryInterface;
+use App\Interfaces\CompanyServiceInterface;
+
+use App\Interfaces\JobRepositoryInterface;
+use App\Interfaces\JobServiceInterface;
+
+use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\UserServiceInterface;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,28 +31,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(CompanyRepository::class, function ($app) {
+        // Company
+        $this->app->singleton(CompanyRepositoryInterface::class, function ($app) {
             return new CompanyRepository(new Company());
         });
-
-        $this->app->singleton(CompanyService::class, function ($app) {
-            return new CompanyService($app->make(CompanyRepository::class));
+        $this->app->singleton(CompanyServiceInterface::class, function ($app) {
+            return new CompanyService($app->make(CompanyRepositoryInterface::class));
         });
 
-        $this->app->singleton(JobRepository::class, function ($app) {
+        // Job
+        $this->app->singleton(JobRepositoryInterface::class, function ($app) {
             return new JobRepository(new Job());
         });
-
-        $this->app->singleton(JobService::class, function ($app) {
-            return new JobService($app->make(JobRepository::class));
+        $this->app->singleton(JobServiceInterface::class, function ($app) {
+            return new JobService($app->make(JobRepositoryInterface::class));
         });
 
-        $this->app->singleton(UserRepository::class, function ($app) {
+        // User
+        $this->app->singleton(UserRepositoryInterface::class, function ($app) {
             return new UserRepository(new User());
         });
-        $this->app->singleton(UserService::class, function ($app) {
-            return new UserService($app->make(UserRepository::class));
+        $this->app->singleton(UserServiceInterface::class, function ($app) {
+            return new UserService($app->make(UserRepositoryInterface::class));
         });
+
     }
 
     /**

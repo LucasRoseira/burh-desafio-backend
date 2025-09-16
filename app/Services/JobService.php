@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Models\Job;
-use App\Repositories\JobRepository;
+use App\Interfaces\JobRepositoryInterface;
+use App\Interfaces\JobServiceInterface;
+use App\Models\Company;
 
-class JobService
+class JobService implements JobServiceInterface
 {
     protected $repository;
 
-    public function __construct(JobRepository $repository)
+    public function __construct(JobRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -26,8 +28,9 @@ class JobService
 
     public function create(array $data)
     {
-        $company = \App\Models\Company::find($data['company_id']);
+        $company = Company::find($data['company_id']);
         $maxJobs = $company->plan === 'Free' ? 5 : 10;
+
         if ($this->repository->countByCompany($company->id) >= $maxJobs) {
             throw new \Exception("This company has reached the maximum number of jobs for its plan.");
         }

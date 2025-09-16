@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use App\Models\Company;
-use App\Repositories\CompanyRepository;
+use App\Interfaces\CompanyRepositoryInterface;
+use App\Interfaces\CompanyServiceInterface;
 
-class CompanyService
+class CompanyService implements CompanyServiceInterface
 {
     protected $repository;
 
-    public function __construct(CompanyRepository $repository)
+    public function __construct(CompanyRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
