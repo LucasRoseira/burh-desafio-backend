@@ -171,6 +171,166 @@
                     }
                 }
             }
+        },
+        "/jobs": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "List all jobs",
+                "operationId": "61095dd3fdb7b25e7daa0084b396ca6e",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Job"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Create a new job",
+                "operationId": "724b21b194916208376d71437be61a8b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/JobRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Job created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Job"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/jobs/{id}": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get a specific job",
+                "operationId": "40e7eaa66d57253caa249e6f6fc06763",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Job"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Job not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Update an existing job",
+                "operationId": "73ddd3048c72f5dbb787a4733069f5d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/JobRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Job updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Job"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Job not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Delete a job",
+                "operationId": "7d6ee44631cf0dc1175069d51532c9b8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Job deleted successfully"
+                    },
+                    "404": {
+                        "description": "Job not found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -203,6 +363,51 @@
                             "Premium"
                         ],
                         "example": "Free"
+                    }
+                },
+                "type": "object"
+            },
+            "JobRequest": {
+                "title": "Job Request",
+                "description": "Schema for creating or updating a job",
+                "required": [
+                    "title",
+                    "type",
+                    "company_id"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Backend Developer"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Develop APIs with Laravel",
+                        "nullable": true
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "PJ",
+                            "CLT",
+                            "Internship"
+                        ],
+                        "example": "CLT"
+                    },
+                    "salary": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 2500,
+                        "nullable": true
+                    },
+                    "hours": {
+                        "type": "integer",
+                        "example": 6,
+                        "nullable": true
+                    },
+                    "company_id": {
+                        "type": "integer",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -249,6 +454,62 @@
                     }
                 },
                 "type": "object"
+            },
+            "Job": {
+                "title": "Job",
+                "required": [
+                    "id",
+                    "title",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Backend Developer"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Develop APIs with Laravel",
+                        "nullable": true
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "PJ",
+                            "CLT",
+                            "Internship"
+                        ],
+                        "example": "CLT"
+                    },
+                    "salary": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "hours": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "company_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -256,6 +517,10 @@
         {
             "name": "Companies",
             "description": "API Endpoints for Companies"
+        },
+        {
+            "name": "Jobs",
+            "description": "API Endpoints for Jobs"
         }
     ]
 }
