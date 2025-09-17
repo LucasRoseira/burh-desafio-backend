@@ -260,6 +260,49 @@
                 }
             }
         },
+        "/jobs/{job_id}/apply": {
+            "post": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Apply a user to a job",
+                "operationId": "827799803ae187032d68185725738d16",
+                "parameters": [
+                    {
+                        "name": "job_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User applied successfully"
+                    },
+                    "404": {
+                        "description": "Job or user not found"
+                    }
+                }
+            }
+        },
         "/jobs": {
             "get": {
                 "tags": [
