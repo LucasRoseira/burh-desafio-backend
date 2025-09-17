@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserSearchRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -107,5 +108,71 @@ class UserController extends Controller
     {
         $this->service->delete($id);
         return response()->json(null, 204);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/users/search",
+     *     tags={"Users"},
+     *     summary="Search users with filters",
+     *     description="Filter users by name, email, or CPF. Also returns jobs each user is registered in.",
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         required=false,
+     *         description="Number of results per page",
+     *         @OA\Schema(type="integer", example=10)
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         description="Filter users by name",
+     *         @OA\Schema(type="string", example="John Doe")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         required=false,
+     *         description="Filter users by email",
+     *         @OA\Schema(type="string", example="john@example.com")
+     *     ),
+     *     @OA\Parameter(
+     *         name="cpf",
+     *         in="query",
+     *         required=false,
+     *         description="Filter users by CPF",
+     *         @OA\Schema(type="string", example="123.456.789-00")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of users with jobs",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/User")
+     *             ),
+     *             @OA\Property(
+     *                 property="links",
+     *                 type="object"
+     *             ),
+     *             @OA\Property(
+     *                 property="meta",
+     *                 type="object"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function search(UserSearchRequest $request)
+    {
+        return response()->json(
+            $this->service->search(
+                $request->get('per_page', 10),
+                $request->only(['name', 'email', 'cpf'])
+            )
+        );
     }
 }

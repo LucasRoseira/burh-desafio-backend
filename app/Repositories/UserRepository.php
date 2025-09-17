@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -21,7 +22,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function find(int $id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with('jobs')->findOrFail($id);
     }
 
     public function create(array $data)
@@ -38,5 +39,24 @@ class UserRepository implements UserRepositoryInterface
     public function delete(User $user)
     {
         return $user->delete();
+    }
+
+    public function search(int $perPage = 10, array $filters = []): LengthAwarePaginator
+    {
+        $query = $this->model->with('jobs');
+
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['email'])) {
+            $query->where('email', 'like', '%' . $filters['email'] . '%');
+        }
+
+        if (!empty($filters['cpf'])) {
+            $query->where('cpf', $filters['cpf']);
+        }
+
+        return $query->orderBy('name')->paginate($perPage);
     }
 }

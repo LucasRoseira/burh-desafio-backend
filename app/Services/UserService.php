@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserServiceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserService implements UserServiceInterface
 {
@@ -40,4 +41,10 @@ class UserService implements UserServiceInterface
         $user = $this->repository->find($id);
         return $this->repository->delete($user);
     }
+
+    public function search(int $perPage = 10, array $filters = []): LengthAwarePaginator
+    {
+        return $this->repository->search($perPage, $filters);
+    }
+
 }
