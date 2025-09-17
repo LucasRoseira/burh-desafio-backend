@@ -17,7 +17,7 @@ class CompanyUpdateRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'cnpj' => 'nullable|string|max:20',
-            'plan' => 'nullable|string|in:free,premium,enterprise',
+            'plan' => 'string|in:Free,Premium',
         ];
     }
 }

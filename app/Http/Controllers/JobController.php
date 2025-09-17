@@ -86,7 +86,6 @@ class JobController extends Controller
         );
     }
 
-
     /**
      * @OA\Get(
      *     path="/jobs/{id}",
@@ -120,10 +119,21 @@ class JobController extends Controller
      *     @OA\Response(response=422, description="Validation error")
      * )
      */
-    public function store(JobRequest $request): JsonResponse
+    public function store(JobRequest $request)
     {
-        return response()->json($this->service->create($request->validated()), 201);
+        try {
+            $job = $this->service->create($request->validated());
+            return response()->json($job, 201);
+        } catch (\Exception $e) {
+            if ($e->getMessage() === 'This company has reached the maximum number of jobs for its plan.') {
+                return response()->json([
+                    'message' => $e->getMessage(),
+                ], 422);
+            }
+            throw $e;
+        }
     }
+
 
     /**
      * @OA\Put(

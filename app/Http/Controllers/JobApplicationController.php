@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -34,12 +35,18 @@ class JobApplicationController extends Controller
         $job = Job::findOrFail($job_id);
         $userId = $request->input('user_id');
 
+        // Verifica se o usuário existe
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
         if ($job->users()->where('user_id', $userId)->exists()) {
-            return response()->json(['message' => 'User already applied to this job.'], 400);
+            return response()->json(['message' => 'User already applied to this job.'], 422);
         }
 
         $job->users()->attach($userId);
 
-        return response()->json(['message' => 'User applied successfully.']);
+        return response()->json(['message' => 'User applied successfully.'], 201);
     }
 }

@@ -17,7 +17,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function all(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->model->orderBy('name')->paginate($perPage, ['*'], 'page', $page);
+        return $this->model->query()->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function find(int $id)
