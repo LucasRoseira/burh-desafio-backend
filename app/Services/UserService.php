@@ -15,10 +15,11 @@ class UserService implements UserServiceInterface
         $this->repository = $repository;
     }
 
-    public function list()
+    public function list(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->repository->all();
+        return $this->repository->all($perPage, $page);
     }
+
 
     public function get(int $id)
     {

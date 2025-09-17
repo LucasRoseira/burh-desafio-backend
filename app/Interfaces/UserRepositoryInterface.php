@@ -7,7 +7,7 @@ use App\Models\User;
 
 interface UserRepositoryInterface
 {
-    public function all();
+    public function all(int $perPage = 10, int $page = 1): LengthAwarePaginator;
     public function find(int $id);
     public function create(array $data);
     public function update(User $user, array $data);

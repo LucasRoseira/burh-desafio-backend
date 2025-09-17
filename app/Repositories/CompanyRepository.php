@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Company;
 use App\Interfaces\CompanyRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
@@ -14,9 +15,9 @@ class CompanyRepository implements CompanyRepositoryInterface
         $this->model = $company;
     }
 
-    public function all()
+    public function all(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->model->all();
+        return $this->model->orderBy('name')->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function find(int $id)

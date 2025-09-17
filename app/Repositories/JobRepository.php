@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Job;
 use App\Interfaces\JobRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class JobRepository implements JobRepositoryInterface
 {
@@ -14,9 +15,9 @@ class JobRepository implements JobRepositoryInterface
         $this->model = $job;
     }
 
-    public function all()
+    public function all(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->model->all();
+        return $this->model->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function find(int $id)

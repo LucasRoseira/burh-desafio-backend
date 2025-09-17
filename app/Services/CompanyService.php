@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Company;
 use App\Interfaces\CompanyRepositoryInterface;
 use App\Interfaces\CompanyServiceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CompanyService implements CompanyServiceInterface
 {
@@ -15,9 +16,9 @@ class CompanyService implements CompanyServiceInterface
         $this->repository = $repository;
     }
 
-    public function list()
+    public function list(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->repository->all();
+        return $this->repository->all($perPage, $page);
     }
 
     public function get(int $id)

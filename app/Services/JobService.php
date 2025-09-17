@@ -6,6 +6,7 @@ use App\Models\Job;
 use App\Interfaces\JobRepositoryInterface;
 use App\Interfaces\JobServiceInterface;
 use App\Models\Company;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class JobService implements JobServiceInterface
 {
@@ -16,9 +17,9 @@ class JobService implements JobServiceInterface
         $this->repository = $repository;
     }
 
-    public function list()
+    public function list(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->repository->all();
+        return $this->repository->all($perPage, $page);
     }
 
     public function get(int $id)
