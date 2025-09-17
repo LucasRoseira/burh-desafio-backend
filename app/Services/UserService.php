@@ -34,6 +34,9 @@ class UserService implements UserServiceInterface
     public function update(int $id, array $data)
     {
         $user = $this->repository->find($id);
+        if (!$user) {
+            throw new \Exception("User not found");
+        }
         return $this->repository->update($user, $data);
     }
 

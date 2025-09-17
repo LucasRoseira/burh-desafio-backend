@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\CompanyUpdateRequest;
 use App\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -136,7 +137,7 @@ class CompanyController extends Controller
      *     @OA\Response(response=422, description="Validation error")
      * )
      */
-    public function update(CompanyRequest $request, int $id): JsonResponse
+    public function update(CompanyUpdateRequest $request, int $id): JsonResponse
     {
         return response()->json($this->service->update($id, $request->validated()));
     }

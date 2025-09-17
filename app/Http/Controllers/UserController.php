@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -136,7 +137,7 @@ class UserController extends Controller
      *     @OA\Response(response=422, description="Validation error")
      * )
      */
-    public function update(UserRequest $request, int $id): JsonResponse
+    public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
         return response()->json($this->service->update($id, $request->validated()));
     }

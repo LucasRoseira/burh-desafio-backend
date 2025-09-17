@@ -34,6 +34,9 @@ class CompanyService implements CompanyServiceInterface
     public function update(int $id, array $data)
     {
         $company = $this->repository->find($id);
+        if (!$company) {
+            throw new \Exception("Company not found");
+        }
         return $this->repository->update($company, $data);
     }
 

@@ -32,7 +32,8 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function update(Company $company, array $data)
     {
-        $company->update($data);
+        $company->fill($data);
+        $company->save();
         return $company;
     }
 

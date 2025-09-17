@@ -32,7 +32,8 @@ class JobRepository implements JobRepositoryInterface
 
     public function update(Job $job, array $data)
     {
-        $job->update($data);
+        $job->fill($data);
+        $job->save();
         return $job;
     }
 

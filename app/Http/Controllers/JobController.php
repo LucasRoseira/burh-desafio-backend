@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
+use App\Http\Requests\JobUpdateRequest;
 use App\Services\JobService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -136,7 +137,7 @@ class JobController extends Controller
      *     @OA\Response(response=422, description="Validation error")
      * )
      */
-    public function update(JobRequest $request, int $id): JsonResponse
+    public function update(JobUpdateRequest $request, int $id): JsonResponse
     {
         return response()->json($this->service->update($id, $request->validated()));
     }

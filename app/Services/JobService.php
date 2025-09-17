@@ -42,6 +42,9 @@ class JobService implements JobServiceInterface
     public function update(int $id, array $data)
     {
         $job = $this->repository->find($id);
+        if (!$job) {
+            throw new \Exception("Job not found");
+        }
         return $this->repository->update($job, $data);
     }
 
