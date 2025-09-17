@@ -1,69 +1,177 @@
-# Desafio Backend BURH 
- 
-## Introdução 
-Nesse desafio serão analisadas suas competências no desenvolvimento de uma API de vagas de emprego. O desafio é referente à vaga Desenvolvedor(a) Backend PHP, publicada no [Burh](https://burh.com.br/vagas/3270129695). Abaixo você encontrará todas as informações necessárias para criar e submeter seu desafio.  
+Ah! Got it 😄. Here's the **entire README in a single code block** ready to copy:
 
-Boa sorte! 🙂 
- 
-## Instruções 
-Para realizar o desafio é importante que você cumpra os itens abaixo: 
-* Possuir um Github; 
-* Realizar o [Fork](https://docs.github.com/pt/get-started/quickstart/fork-a-repo) deste projeto e subir os commits em seu Github; 
-* Estar inscrito na [vaga](https://burh.com.br/vagas/3270129695). 
- 
-## Instruções 
-Para começar a desenvolver, o primeiro passo é criar um fork deste projeto, logo após, recomendamos que você de uma boa olhada nas principais funções e requisitos do desafio antes de começar a programar. Ao subir os commits do seu projeto busque ser o mais descritivo possível, sem subir muitas funcionalidades de uma vez. O desafio busca analisar suas competências em desenvolvimento de APIs, portanto não é necessário e nem será analisado nenhuma tela. Busque terminar primeiro os itens essenciais do desafio e só então, caso queira, você pode implementar funcionalidades adicionais ao seu projeto. 
- 
-A API deve ser criada utilizando PHP com o Framework Laravel. O banco ficará a sua escolha, portanto que seja um banco SQL (MySql, MariaDB, PostgreSQL, Sqlite, etc). 
- 
-## O Projeto 
-Você será responsável pela criação de uma API Restful de cadastro de vagas e candidatura de usuários, em que uma empresa pode criar uma vaga e um usuário pode se candidatar nas vagas criadas.  
-A API deve ser o mais simples possível, contendo somente as funcionalidades que você considere essenciais para a integração completa do seu projeto e atenda aos nossos requisitos.  
-Rotas, estrutura do banco e estrutura do código também estarão ao seu critério, portanto que supram os requisitos. 
-  
-A API deverá conter as seguintes entidades: 
+````markdown
+# BURH Backend Challenge
 
- 
-* Empresa; 
-* Usuário; 
-* Vaga. 
- 
-A entidade empresa deverá conter os campos nome, descrição, CNPJ e plano. 
-A entidade vaga deverá conter os campos título, descrição, tipo de vaga, salário e horário. 
-A entidade usuário deverá conter os campos nome, e-mail, CPF e idade. 
- 
-Requisitos: 
+## Introduction
+This project is a job vacancies API, created for the Backend PHP Developer challenge at [Burh].
 
- 
-* Empresas podem abrir vagas. 
-* Usuários podem se candidatar a vagas. 
-* Não pode haver mais de um usuário com o mesmo e-mail ou CPF cadastrado. 
-* Não pode haver mais de uma empresa com o mesmo CNPJ cadastrado. 
-* As empresas poderão ter 2 tipos de plano: "Free" ou "Premium". Empresas com o plano Free poderão abrir até 5 vagas, enquanto empresas com o plano Premium podem abrir até 10 vagas. 
-* Poderão existir vagas do tipo PJ, CLT e estágio.  
-* Vagas do tipo CLT e estágio tem o cadastro do salário e horário obrigatórios.  
-* Vagas do tipo CLT devem possuir o salário mínimo de R$1212,00 enquanto vagas de estágio e PJ não possuem um valor mínimo.  
-* Vagas do tipo estágio devem ter o horário máximo de 6 horas. 
-* Deverá haver uma rota de busca de usuários, podendo filtrar por nome, E-mail e CPF. Além disso a rota deverá retornar todas as vagas em que aqueles usuários estão inscritos, trazendo todos os dados dessas vagas. 
- 
-Você é livre para nomear os campos da forma que preferir e adicionar quaisquer campos extras ou tabelas para criar relações entre as entidades. não é necessário qualquer sistema de autenticação. 
- 
-## O que avaliaremos em seu projeto 
-* Cumprimento dos requisitos do desafio. 
-* Estrutura e coerência do código. 
-* Arquitetura do banco. 
-* Código limpo e organizado. 
-* Padrões de código (PSRs, Design patterns, SOLID). 
-* Tratamento de erros. 
- 
-## O que será um diferencial para seu projeto. 
-* Uso de docker. 
-* Testes de integração. 
-* Design Patterns. 
-* Documentação (ReadME). 
+The API allows companies to create job postings and users to apply to them.
 
-* Uso de cache 
- 
-## O que NÃO é essencial em seu projeto 
-* Frontend. 
-* Autenticação. 
+---
+
+## Technologies
+
+- **Laravel:** 9.52.20  
+- **PHP:** 8.0.25  
+- **Database:** MySQL (or any compatible SQL database)  
+- **L5 Swagger:** API documentation  
+
+---
+
+## Entities and Rules
+
+### Company
+- Fields: `name`, `description`, `CNPJ`, `plan`
+- Plans:
+  - Free: up to 5 jobs
+  - Premium: up to 10 jobs
+
+### Job
+- Fields: `title`, `description`, `type` (PJ, CLT, Internship), `salary`, `hours`
+- Rules:
+  - CLT: minimum salary R$1212.00
+  - Internship: maximum hours 6
+  - PJ: no minimum salary or hours restrictions
+
+### User
+- Fields: `name`, `email`, `CPF`, `age`
+- Rules:
+  - No duplicate users with same email or CPF
+  - Users can apply to jobs
+
+---
+
+## Prerequisites
+
+- PHP >= 8.0  
+- Composer  
+- MySQL (or any compatible SQL database)  
+- PHP extensions: `pdo`, `pdo_mysql`, `mbstring`, `tokenizer`, `xml`, `ctype`  
+
+---
+
+## Local Setup
+
+1. **Clone the project**
+```bash
+git clone <your-fork-url>
+cd burh-desafio-backend
+````
+
+2. **Install dependencies**
+
+```bash
+composer install
+```
+
+3. **Configure `.env`**
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` to configure your database:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=burh_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+4. **Create the database**
+
+```sql
+CREATE DATABASE burh_db;
+```
+
+5. **Run migrations and seeders (optional)**
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+6. **Generate application key**
+
+```bash
+php artisan key:generate
+```
+
+7. **Install L5 Swagger**
+
+```bash
+# 1. Install L5 Swagger package via Composer
+composer require "darkaonline/l5-swagger"
+
+# 2. Publish the configuration and views
+php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+
+# 3. Generate Swagger documentation
+php artisan l5-swagger:generate
+```
+
+8. **Run the server**
+
+```bash
+php artisan serve
+```
+
+9. **Access API documentation**
+   Open in your browser:
+
+```
+http://127.0.0.1:8000/api/documentation#
+```
+
+---
+
+## API Endpoints Examples
+
+### Companies
+
+* `GET /api/companies` → List all companies
+* `POST /api/companies` → Create a company
+* `PUT /api/companies/{id}` → Update a company
+* `DELETE /api/companies/{id}` → Delete a company
+
+### Jobs
+
+* `GET /api/jobs` → List all jobs
+* `POST /api/jobs` → Create a job
+* `POST /api/jobs/{id}/apply` → Apply to a job
+
+### Users
+
+* `GET /api/users/search?name=Lucas` → Search users by name/email/CPF and include jobs
+* `POST /api/users` → Create a user
+
+---
+
+## Tests
+
+To run tests:
+
+```bash
+php artisan test
+```
+
+All `User`, `Company`, and `Job` tests are already implemented and passing.
+
+---
+
+## Notes
+
+* There is no authentication in this project; all routes are publicly accessible.
+* Swagger is configured to document all API routes.
+* You can use any REST client (Postman, Insomnia, etc.) to test the endpoints.
+
+```
+
+If you want, I can also **add sample request/response examples in the same block** so you can copy everything as one ready-to-use README.  
+
+Do you want me to add that?
+```
