@@ -937,8 +937,9 @@
                         "example": "123.456.789-00"
                     },
                     "age": {
-                        "type": "integer",
-                        "example": 30,
+                        "type": "string",
+                        "format": "date",
+                        "example": "1995-05-15",
                         "nullable": true
                     }
                 },
@@ -1091,8 +1092,9 @@
                         "example": "123.456.789-00"
                     },
                     "age": {
-                        "type": "integer",
-                        "example": 30,
+                        "type": "string",
+                        "format": "date",
+                        "example": "1995-08-25",
                         "nullable": true
                     },
                     "created_at": {

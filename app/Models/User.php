@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *     @OA\Property(property="name", type="string", example="John Doe"),
  *     @OA\Property(property="email", type="string", example="john@example.com"),
  *     @OA\Property(property="cpf", type="string", example="123.456.789-00"),
- *     @OA\Property(property="age", type="integer", example=30, nullable=true),
+ *     @OA\Property(property="age", type="string", format="date", example="1995-08-25", nullable=true),
  *     @OA\Property(property="created_at", type="string", format="date-time", example="2025-01-01T12:00:00Z"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-01-01T12:00:00Z")
  * )

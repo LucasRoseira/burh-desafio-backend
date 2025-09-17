@@ -29,8 +29,9 @@ use Illuminate\Foundation\Http\FormRequest;
  *     ),
  *     @OA\Property(
  *         property="age",
- *         type="integer",
- *         example=30,
+ *         type="string",
+ *         format="date",
+ *         example="1995-05-15",
  *         nullable=true
  *     )
  * )
@@ -48,7 +49,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->user,
             'cpf' => 'required|string|unique:users,cpf,' . $this->user,
-            'age' => 'nullable|integer|min:0',
+            'age' => 'nullable|date',
         ];
     }
 }
