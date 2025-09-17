@@ -63,26 +63,28 @@ class JobRequest extends FormRequest
             'description' => 'nullable|string',
             'type' => ['required', Rule::in(['PJ', 'CLT', 'Internship'])],
             'salary' => [
-                'nullable',
-                'numeric',
                 function ($attribute, $value, $fail) {
+                    if (in_array($this->type, ['CLT', 'Internship']) && !$value) {
+                        $fail($this->type . ' jobs must have salary specified.');
+                    }
                     if ($this->type === 'CLT' && $value < 1212) {
                         $fail('CLT jobs must have a minimum salary of 1212.');
                     }
                 }
             ],
+
             'hours' => [
-                'nullable',
                 'integer',
                 function ($attribute, $value, $fail) {
-                    if ($this->type === 'Internship' && $value > 6) {
-                        $fail('Internship jobs must have a maximum of 6 hours.');
-                    }
                     if (in_array($this->type, ['CLT', 'Internship']) && !$value) {
                         $fail($this->type . ' jobs must have hours specified.');
                     }
+                    if ($this->type === 'Internship' && $value > 6) {
+                        $fail('Internship jobs must have a maximum of 6 hours.');
+                    }
                 }
             ],
+
             'company_id' => 'required|exists:companies,id',
         ];
     }
