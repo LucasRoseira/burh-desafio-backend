@@ -12,6 +12,12 @@ services:
             - .:/var/www/html
         networks:
             - laravel
+        command: >
+            bash -c "
+            composer install &&
+            php artisan key:generate &&
+            php artisan migrate --seed &&
+            php-fpm"
 
     web:
         image: nginx:alpine
