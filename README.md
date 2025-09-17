@@ -52,10 +52,10 @@ No authentication is required. You are free to design database fields, extra tab
 
 - Copy the .env.example file to .env
 - Update the database credentials accordingly with the docker-compose file
-
-`db`: burh_db
-`user`: burh_user
-`password`: secret
+`DB_HOST`: db
+`DB_DATABASE`: burh_db
+`DB_USERNAME`: burh_user
+`DB_PASSWORD`: secret
 
 # Build and start containers
 docker-compose up -d --build
