@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
 use App\Http\Requests\CompanyUpdateRequest;
-use App\Services\CompanyService;
+use App\Interfaces\CompanyServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class CompanyController extends Controller
 {
     protected $service;
 
-    public function __construct(CompanyService $service)
+    public function __construct(CompanyServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -104,7 +104,15 @@ class CompanyController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->service->get($id));
+        try {
+            $user = $this->service->get($id);
+            if (!$user) {
+                return response()->json(['message' => 'Company not found'], 404);
+            }
+            return response()->json($user, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Company not found'], 404);
+        }
     }
 
     /**
@@ -137,9 +145,13 @@ class CompanyController extends Controller
      *     @OA\Response(response=422, description="Validation error")
      * )
      */
-    public function update(CompanyUpdateRequest $request, int $id): JsonResponse
+    public function update(int $id, array $data)
     {
-        return response()->json($this->service->update($id, $request->validated()));
+        $company = $this->service->get($id);
+        if (!$company) {
+            return response()->json(['message' => 'Company not found'], 404);
+        }
+        return $this->service->update($company, $data);
     }
 
     /**

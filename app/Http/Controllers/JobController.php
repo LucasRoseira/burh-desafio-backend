@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
 use App\Http\Requests\JobUpdateRequest;
-use App\Services\JobService;
+use App\Interfaces\JobServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class JobController extends Controller
 {
     protected $service;
 
-    public function __construct(JobService $service)
+    public function __construct(JobServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -103,7 +103,15 @@ class JobController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->service->get($id));
+        try {
+            $user = $this->service->get($id);
+            if (!$user) {
+                return response()->json(['message' => 'Job not found'], 404);
+            }
+            return response()->json($user, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Job not found'], 404);
+        }
     }
 
     /**
@@ -149,7 +157,12 @@ class JobController extends Controller
      */
     public function update(JobUpdateRequest $request, int $id): JsonResponse
     {
-        return response()->json($this->service->update($id, $request->validated()));
+        try {
+            $job = $this->service->update($id, $request->validated());
+            return response()->json($job, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**

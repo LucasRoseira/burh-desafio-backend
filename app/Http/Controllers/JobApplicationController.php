@@ -35,7 +35,6 @@ class JobApplicationController extends Controller
         $job = Job::findOrFail($job_id);
         $userId = $request->input('user_id');
 
-        // Verifica se o usuário existe
         $user = User::find($userId);
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserSearchRequest;
-use App\Services\UserService;
+use App\Interfaces\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     protected $service;
 
-    public function __construct(UserService $service)
+    public function __construct(UserServiceInterface $service)
     {
         $this->service = $service;
     }
@@ -104,8 +104,17 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->service->get($id));
+        try {
+            $user = $this->service->get($id);
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 404);
+            }
+            return response()->json($user, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
+
 
     /**
      * @OA\Post(
@@ -139,7 +148,12 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
-        return response()->json($this->service->update($id, $request->validated()));
+        try {
+            $user = $this->service->update($id, $request->validated());
+            return response()->json($user, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
 
     /**
