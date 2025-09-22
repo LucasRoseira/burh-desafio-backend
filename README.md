@@ -1,4 +1,4 @@
-Perfeito! Vou organizar e atualizar seu README incluindo **todas as etapas que configuramos no Docker, permissões, `.env`, cache, logs e execução completa do Laravel**. Aqui está uma versão completa e mais clara:
+Perfeito! Vou atualizar seu README incluindo **uma seção detalhada sobre seeds**, mostrando como rodar todos, específicos ou resetando o banco, para deixar o guia completo:
 
 ---
 
@@ -105,13 +105,30 @@ chmod -R 775 storage bootstrap/cache
 php artisan config:clear
 php artisan cache:clear
 
-# Run migrations and seeds
-php artisan migrate --seed
+# Run migrations
+php artisan migrate
 ```
 
 ---
 
-### 5️⃣ Generate API Documentation
+### 5️⃣ Run Seeds (Populate Database)
+
+```bash
+# Run all seeds
+php artisan db:seed
+
+# Run a specific seeder
+php artisan db:seed --class=NomeDoSeeder
+
+# Reset database and run migrations + seeds
+php artisan migrate:fresh --seed
+```
+
+> The `--seed` flag ensures that the database is populated with default or test data after migration.
+
+---
+
+### 6️⃣ Generate API Documentation
 
 ```bash
 php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
@@ -146,6 +163,9 @@ chmod -R 775 storage bootstrap/cache
 ```
 
 * The `vendor/` folder is required. If missing, run `composer install` inside the container.
+* To ensure seeds work correctly, always set the correct database credentials in `.env` and clear cache if needed:
 
----
-
+```bash
+php artisan config:clear
+php artisan cache:clear
+```
