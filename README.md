@@ -149,7 +149,3 @@ chmod -R 775 storage bootstrap/cache
 
 ---
 
-Se você quiser, posso **adicionar uma seção final mostrando todos os comandos em ordem cronológica** pra subir o projeto do zero **em um único passo**, sem erros de permissões ou banco.
-
-Quer que eu faça isso?
-
